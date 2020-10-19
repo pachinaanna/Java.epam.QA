@@ -1,0 +1,68 @@
+CREATE DATABASE IF NOT EXISTS Parks;
+
+USE Parks;
+
+CREATE TABLE IF NOT EXISTS Park (
+id INT NOT NULL AUTO_INCREMENT,
+name TEXT,
+location TEXT,
+square float,
+PRIMARY KEY (id));
+
+CREATE TABLE IF NOT EXISTS Gardener (
+id INT NOT NULL AUTO_INCREMENT,
+park_id INT,
+name TEXT,
+PRIMARY KEY (id),
+FOREIGN KEY (park_id)
+REFERENCES Park (id)
+ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS Zone (
+id INT NOT NULL AUTO_INCREMENT,
+park_id INT,
+number TEXT,
+name TEXT,
+PRIMARY KEY (id),
+FOREIGN KEY (park_id)
+REFERENCES Park (id)
+ON DELETE CASCADE);
+
+CREATE TABLE IF NOT EXISTS Zone_plant (
+id INT NOT NULL AUTO_INCREMENT,
+zone_id INT,
+name TEXT,
+quantity INT,
+infected_plants INT DEFAULT 0,
+PRIMARY KEY (id),
+FOREIGN KEY (zone_id)
+REFERENCES Zone (id)
+ON DELETE CASCADE);
+
+-- DROP DATABASE Parks;
+
+INSERT INTO Park (name, location, square) VALUES (
+'Приморский парк Победы', 'С-Пб, Крестовский пр., 23', '168'),
+('Парк 300-летия Санкт-Петербурга', 'Приморский пр., 74', '54'),
+('Удельный парк', 'пр. Энгельса, 28А', '150') ;
+
+ INSERT INTO Gardener (name, park_id) VALUES (
+ 'Иванов Павел Иванович', 1),
+ ('Федотов Максим Леонидович', 1),
+ ('Буковский Владимир Анатольевич', 2),
+ ('Симонов Николай Павлович', 2),
+ ('Касаткин Сергей Алексеевич', 3),
+ ('Суворов Анатолий Сергеевич', 3);
+
+ INSERT INTO Zone (park_id, number, name) VALUES
+ (1, 11, 'Входная зона'), (1, 12, 'Прогулочная зона'), (1, 13, 'Зона летнего отдыха'),
+ (2, 11, 'Парадная входная зона'), (2, 12, 'Набережная'), (2, 13, 'Зона летнего отдыха'),
+ (2, 14, 'Детская игровая зона'), (3, 11, 'Входная зона'), (3, 12, 'Прогулочная зона'),
+ (3, 13, 'Зона для занятий спортом');
+
+ INSERT INTO Zone_plant (zone_id, name, quantity, infected_plants) VALUES
+ (1, 'Береза пушистая', 23, DEFAULT), (1, 'Вяз шершавый', 15, DEFAULT), (2, 'Кизильник блестящий', 31, DEFAULT),
+ (3, 'Сирень обыкновенная, венгерская', 8, DEFAULT), (3, 'Липа мелколистная', 45, 3), (4, 'Ясень обыкновенный', 16, DEFAULT),
+ (5, 'Береза пушистая', 17, DEFAULT), (6, 'Ель колючая, канадская', 38, 2), (6, 'Сирень обыкновенная, венгерская', 14, DEFAULT),
+ (7, 'Вяз шершавый', 21, 1), (8, 'Калина обыкновенная', 18, DEFAULT), (8, 'Ясень обыкновенный', 25, DEFAULT),
+ (9, 'Лиственница европейская', 17, DEFAULT), (10, 'Кизильник блестящий', 35, 1);
